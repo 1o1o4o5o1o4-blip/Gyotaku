@@ -1,0 +1,29 @@
+{
+  "name": "scratch-studio-members",
+  "version": "1.0.0",
+  "description": "Scratch Studio Members Web Application",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "scratch",
+    "studio",
+    "members"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2",
+    "node-cron": "^3.0.2",
+    "better-sqlite3": "^9.0.0",
+    "dotenv": "^16.3.1",
+    "cors": "^2.8.5",
+    "node-fetch": "^2.7.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  }
+}

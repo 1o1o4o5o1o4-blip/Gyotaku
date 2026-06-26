@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scratchスタジオ メンバー管理</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <div class="header-content">
+        <h1 class="logo">🎨 Scratchスタジオ メンバー管理</h1>
+        <p class="subtitle">スタジオのメンバー一覧を管理・公開</p>
+      </div>
+    </header>
+
+    <main class="main">
+      <section class="section register-section">
+        <h2>📝 スタジオを登録</h2>
+        <p class="section-description">スタジオIDを入力して登録してください。毎日深夜0時にメンバー情報が自動更新されます。</p>
+        
+        <div class="form-group">
+          <label for="studioInput">スタジオID</label>
+          <input 
+            type="text" 
+            id="studioInput" 
+            placeholder="例: 123456789"
+            class="input-field"
+          >
+          <small class="help-text">ScratchスタジオのURLから取得できます: https://scratch.mit.edu/studios/[ID]/</small>
+        </div>
+
+        <div class="form-group">
+          <label for="studioName">スタジオ名（オプション）</label>
+          <input 
+            type="text" 
+            id="studioName" 
+            placeholder="例: My Awesome Studio"
+            class="input-field"
+          >
+        </div>
+
+        <button id="registerBtn" class="btn btn-primary">🔗 登録</button>
+      </section>
+
+      <section class="section studios-section">
+        <h2>📚 登録済みスタジオ</h2>
+        <div id="studiosList" class="studios-grid">
+          <p class="loading">読み込み中...</p>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <p>&copy; 2024 Scratchスタジオ メンバー管理 - <a href="https://scratch.mit.edu">Scratch</a>に関連した非公式ツール</p>
+    </footer>
+  </div>
+
+  <script src="js/api.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

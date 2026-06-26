@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>メンバー一覧 - Scratchスタジオ</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <div class="header-content">
+        <a href="/" class="back-link">← 戻る</a>
+        <h1 class="logo">👥 メンバー一覧</h1>
+      </div>
+    </header>
+
+    <main class="main">
+      <section class="section members-section">
+        <div id="studioInfo" class="studio-info">
+          <p class="loading">読み込み中...</p>
+        </div>
+
+        <div class="members-container">
+          <div id="managersSection" class="role-section">
+            <h2 class="role-title">🔑 マネージャー</h2>
+            <div id="managersList" class="members-list">
+              <p class="loading">読み込み中...</p>
+            </div>
+          </div>
+
+          <div id="curatorsSection" class="role-section">
+            <h2 class="role-title">⭐ キュレーター</h2>
+            <div id="curatorsList" class="members-list">
+              <p class="loading">読み込み中...</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="actions">
+          <button id="shareBtn" class="btn btn-secondary">🔗 リンクをコピー</button>
+          <button id="refreshBtn" class="btn btn-secondary">🔄 更新</button>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <p>&copy; 2024 Scratchスタジオ メンバー管理</p>
+    </footer>
+  </div>
+
+  <script src="js/api.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const studioId = urlParams.get('studio');
+
+      if (!studioId) {
+        document.getElementById('studioInfo').innerHTML = `
+          <div class="error">
+            <p>⚠️ スタジオIDが指定されていません</p>
+            <a href="/" class="btn btn-primary">スタジオを登録</a>
+          </div>
+        `;
+        return;
+      }
+
+      await loadMembers(studioId);
+
+      document.getElementById('shareBtn').addEventListener('click', () => shareUrl());
+      document.getElementById('refreshBtn').addEventListener('click', () => loadMembers(studioId));
+    });
+
+    async function loadMembers(studioId) {
+      try {
+        const data = await fetchAPI(`/api/members/${studioId}`);
+        displayMembers(data);
+      } catch (error) {
+        console.error('Error loading members:', error);
+        document.getElementById('studioInfo').innerHTML = `
+          <div class="error">
+            <p>❌ メンバー情報を読み込めませんでした</p>
+            <small>${error.message}</small>
+          </div>
+        `;
+      }
+    }
+
+    function displayMembers(data) {
+      const { studio, members, total } = data;
+
+      // Studio info
+      document.getElementById('studioInfo').innerHTML = `
+        <div class="studio-info-card">
+          <h2>${studio.name || `スタジオ ${studio.studio_id}`}</h2>
+          <div class="stats">
+            <div class="stat-item">
+              <span class="stat-label">総メンバー数</span>
+              <span class="stat-value">${total}</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-label">マネージャー</span>
+              <span class="stat-value">${members.managers.length}</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-label">キュレーター</span>
+              <span class="stat-value">${members.curators.length}</span>
+            </div>
+          </div>
+        </div>
+      `;
+
+      // Display managers
+      const managersList = document.getElementById('managersList');
+      if (members.managers.length > 0) {
+        managersList.innerHTML = members.managers.map(member => `
+          <div class="member-card">
+            <img src="${member.avatar_url}" alt="${member.username}" class="member-avatar">
+            <div class="member-info">
+              <a href="${member.profile_url}" target="_blank" class="member-name">${member.username}</a>
+              <span class="member-role">マネージャー</span>
+            </div>
+          </div>
+        `).join('');
+      } else {
+        managersList.innerHTML = '<p class="no-data">マネージャーがいません</p>';
+      }
+
+      // Display curators
+      const curatorsList = document.getElementById('curatorsList');
+      if (members.curators.length > 0) {
+        curatorsList.innerHTML = members.curators.map(member => `
+          <div class="member-card">
+            <img src="${member.avatar_url}" alt="${member.username}" class="member-avatar">
+            <div class="member-info">
+              <a href="${member.profile_url}" target="_blank" class="member-name">${member.username}</a>
+              <span class="member-role">キュレーター</span>
+            </div>
+          </div>
+        `).join('');
+      } else {
+        curatorsList.innerHTML = '<p class="no-data">キュレーターがいません</p>';
+      }
+    }
+
+    function shareUrl() {
+      const url = window.location.href;
+      navigator.clipboard.writeText(url).then(() => {
+        alert('リンクをコピーしました！');
+      }).catch(() => {
+        alert('コピーに失敗しました');
+      });
+    }
+
+    function fetchAPI(url) {
+      return fetch(url).then(res => {
+        if (!res.ok) throw new Error('API Error');
+        return res.json();
+      });
+    }
+  </script>
+</body>
+</html>
