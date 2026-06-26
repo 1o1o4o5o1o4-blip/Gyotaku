@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Digital Clock - Multiple Timezones</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <h1>🕐 Digital Clock</h1>
+      <p class="subtitle">View current time across multiple timezones</p>
+    </header>
+
+    <main class="main">
+      <!-- Timezone Selector -->
+      <section class="control-section">
+        <div class="timezone-input-group">
+          <label for="timezoneSelect">Add Timezone:</label>
+          <select id="timezoneSelect" class="timezone-select">
+            <option value="">-- Select a timezone --</option>
+          </select>
+          <button id="addBtn" class="btn btn-primary">+ Add</button>
+        </div>
+        <button id="resetBtn" class="btn btn-secondary">Reset to Default</button>
+      </section>
+
+      <!-- Clocks Grid -->
+      <section class="clocks-section">
+        <div id="clocksContainer" class="clocks-grid">
+        </div>
+      </section>
+
+      <!-- Settings Panel -->
+      <section class="settings-section">
+        <h2>⚙️ Settings</h2>
+        <div class="settings-grid">
+          <div class="setting-item">
+            <label>
+              <input type="checkbox" id="format24h" checked>
+              24-Hour Format
+            </label>
+          </div>
+          <div class="setting-item">
+            <label>
+              <input type="checkbox" id="showSeconds" checked>
+              Show Seconds
+            </label>
+          </div>
+          <div class="setting-item">
+            <label>
+              <input type="checkbox" id="showDate" checked>
+              Show Date
+            </label>
+          </div>
+          <div class="setting-item">
+            <label>
+              <input type="checkbox" id="analogClock">
+              Analog Clock
+            </label>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <p>&copy; 2024 Digital Clock App - Multiple Timezone Support</p>
+    </footer>
+  </div>
+
+  <script src="timezones.js"></script>
+  <script src="clock.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
